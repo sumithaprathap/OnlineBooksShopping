@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
 .book-card {
   height: 400px;
   width: 200px;
@@ -128,4 +137,77 @@
   align-items: center;
   gap: 20px;
   margin-top: 30px;
+}
+
+/*************Home******************/
+.home {
+  display: flex;
+  gap: 24px;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #eee;
+  padding: 16px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+.sidebar-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+.sidebar-filters a {
+  text-decoration: none;
+  color: #0f1111;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.content {
+  flex: 1;
+}
+
+/*** search box***/
+
+.search-wrapper {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: space-evenly;
+  height: 40px;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 4px;
+}
+
+.nav-search:hover {
+  border: 2px solid orange;
+}
+.search-input {
+  flex: 1; /*makes the input adapt automatically*/
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #555;
+  border-radius: 4px 0 0 4px;
+  display: flex;
+}
+
+.search-icon {
+  background-color: #febd68;
+  width: 45px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  border-radius: 0 4px 4px 0;
+  color: #0f1111;
 }

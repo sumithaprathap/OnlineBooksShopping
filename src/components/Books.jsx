@@ -1,12 +1,12 @@
 import React from "react";
 import { books } from "../data";
 import BookCard from "./BookCard";
-const Books = () => {
+const Books = ({ booksToDisplay }) => {
   return (
     <section className="books-section">
-      {books.map((book) => {
-        return <BookCard key={book.id} book={book} />;
-      })}
+      {booksToDisplay.map((book) => (
+        <BookCard key={book.id} book={book} />
+      ))}
     </section>
   );
 };
