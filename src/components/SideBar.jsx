@@ -2,10 +2,11 @@ import React from "react";
 
 const SideBar = () => {
   return (
-    <div className="sidebar-filters">
-      <a href="#">Cost</a>
-      <a href="#">Author</a>
-      <a href="#">Publisher</a>
+    <div className="sidebar-filters ">
+      <p>Price</p>
+      <p>Rating</p>
+      <p>Category</p>
+      <p>Author</p>
     </div>
   );
 };

@@ -17,10 +17,10 @@ const Home = () => {
       <aside className="sidebar">
         <SideBar />
       </aside>
-      <main className="content">
+      <div className="content">
         <SearchForm setBooksToDisplay={setBooksToDisplay} />
         <Books booksToDisplay={booksToDisplay} />
-      </main>
+      </div>
     </div>
   );
 };
