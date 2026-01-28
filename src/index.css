@@ -263,7 +263,7 @@ body {
   padding-top: 5px;
   gap: 30px;
 
-  background-image: url("images/nabarbkg.png");
+  background-image: url("/images/nabarbkg.png");
   background-repeat: repeat-x;
   background-size: auto 100%;
   font-size: x-large;
