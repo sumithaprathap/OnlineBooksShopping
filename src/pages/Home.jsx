@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Books from "../components/Books";
 import SearchForm from "../components/SearchForm";
 import SideBar from "../components/SideBar";
@@ -48,6 +48,15 @@ const Home = () => {
     if (max !== null && book.price > max) return false;
     return true;
   };
+
+  const filteredBooks = useMemo(() => {
+    return books
+      .filter(bySearch)
+      .filter(byCategory)
+      .filter(byRating)
+      .filter(byPrice);
+  }, [books, searchQuery, filters]);
+
   if (loading) return <p>Please wait...</p>;
   if (error) return <p>Error occurred...</p>;
   return (
@@ -57,13 +66,7 @@ const Home = () => {
       </aside>
       <div className="content">
         <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Books
-          filteredBooks={books
-            .filter(bySearch)
-            .filter(byCategory)
-            .filter(byRating)
-            .filter(byPrice)}
-        />
+        <Books filteredBooks={filteredBooks} />
       </div>
     </div>
   );
