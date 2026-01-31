@@ -1,21 +1,9 @@
 import { useState } from "react";
 import { books } from "../data";
-const SearchForm = ({ setBooksToDisplay }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchBook = (e) => {
-    e.preventDefault();
-
-    const query = searchQuery.toLowerCase().trim();
-
-    const filteredBooks = books.filter((book) =>
-      book.title.toLowerCase().includes(query),
-    );
-
-    setBooksToDisplay(filteredBooks);
-  };
+const SearchForm = ({ searchQuery, setSearchQuery }) => {
   return (
     <div className="search-wrapper">
-      <form className="search-form" onSubmit={searchBook}>
+      <form className="search-form">
         <input
           className="search-input"
           type="text"

@@ -5,21 +5,34 @@ import SideBar from "../components/SideBar";
 import { books } from "../data";
 
 const Home = () => {
-  const [booksToDisplay, setBooksToDisplay] = useState(books);
-  useEffect(() => {
-    if (booksToDisplay.length === 0) {
-      setBooksToDisplay(books);
-    }
-  }, [booksToDisplay]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const initialFilters = {
+    categories: [],
+    rating: null,
+    price: { min: null, max: null },
+  };
+  const [filters, setFilters] = useState(initialFilters);
+  const bySearch = (book) => {
+    if (!searchQuery) return true;
+    else
+      return book.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase().trim());
+  };
+
+  const byCategory = (book) => {
+    if (filters.categories.length === 0) return true;
+    else return filters.categories.includes(book.category);
+  };
 
   return (
     <div className="home">
       <aside className="sidebar">
-        <SideBar />
+        <SideBar filters={filters} setFilters={setFilters} />
       </aside>
       <div className="content">
-        <SearchForm setBooksToDisplay={setBooksToDisplay} />
-        <Books booksToDisplay={booksToDisplay} />
+        <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Books filteredBooks={books.filter(bySearch).filter(byCategory)} />
       </div>
     </div>
   );

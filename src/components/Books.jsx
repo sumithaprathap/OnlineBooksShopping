@@ -1,10 +1,11 @@
 import React from "react";
 import { books } from "../data";
 import BookCard from "./BookCard";
-const Books = ({ booksToDisplay }) => {
+const Books = ({ filteredBooks }) => {
+  // console.log("filteredBooks=", filteredBooks);
   return (
     <section className="books-section">
-      {booksToDisplay.map((book) => (
+      {filteredBooks.map((book) => (
         <BookCard key={book.id} book={book} />
       ))}
     </section>
