@@ -1,9 +1,7 @@
-import { books } from "../data";
 import { useEffect, useState } from "react";
 
-const SideBar = ({ filters, setFilters }) => {
+const SideBar = ({ filters, setFilters, books }) => {
   const [categories, setCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
   const [openSections, setOpenSections] = useState({
     category: false,
     price: false,
@@ -12,7 +10,7 @@ const SideBar = ({ filters, setFilters }) => {
 
   useEffect(() => {
     setCategories([...new Set(books.map((book) => book.category))]);
-  }, []);
+  }, [books]);
 
   const toggle = (section) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));

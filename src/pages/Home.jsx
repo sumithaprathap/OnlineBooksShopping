@@ -2,15 +2,27 @@ import { useState, useEffect } from "react";
 import Books from "../components/Books";
 import SearchForm from "../components/SearchForm";
 import SideBar from "../components/SideBar";
-import { books } from "../data";
+import { fetchBooks } from "../services/booksApi";
 
 const Home = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     categories: [],
     rating: null,
     price: { min: null, max: null },
   });
+
+  useEffect(() => {
+    setLoading(true);
+    fetchBooks()
+      .then(setBooks)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+
   const bySearch = (book) => {
     if (!searchQuery) return true;
     else
@@ -36,11 +48,12 @@ const Home = () => {
     if (max !== null && book.price > max) return false;
     return true;
   };
-
+  if (loading) return <p>Please wait...</p>;
+  if (error) return <p>Error occurred...</p>;
   return (
     <div className="home">
       <aside className="sidebar">
-        <SideBar filters={filters} setFilters={setFilters} />
+        <SideBar filters={filters} setFilters={setFilters} books={books} />
       </aside>
       <div className="content">
         <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { books } from "../data";
 const SearchForm = ({ searchQuery, setSearchQuery }) => {
   return (
     <div className="search-wrapper">
-      <form className="search-form">
+      <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           className="search-input"
           type="text"

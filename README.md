@@ -1,18 +1,149 @@
-# React + Vite
+📚 Online Book Store (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal, responsive online book store built with React.
+The application demonstrates modern frontend concepts such as component-driven UI, client-side routing, async data fetching, and multi-criteria filtering.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+(https://onlinebookstore-searchandshop.netlify.app/)
 
-## React Compiler
+# Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Core UI
 
-Note: This will impact Vite dev & build performances.
+- Product grid with reusable BookCard components
 
-## Expanding the ESLint configuration
+- Sticky navigation bar with client-side routing
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Responsive layout with sidebar + main content
+
+- Search & Filters
+
+- Search books by title (case-insensitive)
+
+- Filter by:
+  - Category (multi-select)
+
+  - Rating (single-select)
+
+  - Price range (min / max)
+
+- Expand / collapse filter sections (accordion behavior)
+
+- Empty-state handling when no results match
+
+# Interactions
+
+- Like / wishlist toggle on each book
+
+- Controlled inputs for search and filters
+
+- Real-time filtering without page reload
+
+# Data & Async
+
+- Books loaded asynchronously using fetch
+
+- Deployed-friendly setup using /public/books.json
+
+L- oading and error states handled
+
+# Tech Stack
+
+- React (Hooks)
+
+- React Router
+
+- Fetch API
+
+- CSS (Flexbox)
+
+- Font Awesome icons
+
+- Netlify deployment
+
+# Project Structure
+
+src/
+components/
+BookCard.jsx
+Books.jsx
+NavBar.jsx
+SearchForm.jsx
+SideBar.jsx
+pages/
+Home.jsx
+TopSellers.jsx
+Categories.jsx
+services/
+booksApi.js
+App.jsx
+App.css
+
+public/
+books.json
+
+# Key Architectural Ideas
+
+1. Single Source of Truth
+
+All business state lives in Home.jsx:
+
+const [books, setBooks] = useState([]);
+const [searchQuery, setSearchQuery] = useState("");
+const [filters, setFilters] = useState({
+categories: [],
+rating: null,
+price: { min: null, max: null },
+});
+
+Child components are fully controlled via props.
+
+2. Functional Filtering Pipeline
+
+Instead of nested conditionals:
+
+books
+.filter(bySearch)
+.filter(byCategory)
+.filter(byRating)
+.filter(byPrice)
+
+Each filter is an independent predicate:
+
+const bySearch = (book) => {
+if (!searchQuery) return true;
+return book.title.toLowerCase().includes(searchQuery.toLowerCase());
+};
+
+This pattern scales cleanly as new filters are added.
+
+3. Pure UI State vs Business State
+
+UI state (accordion open/close) lives inside SideBar
+
+Business state (filters) lives in Home
+
+This separation avoids unnecessary re-renders and keeps logic predictable.
+
+4. Async Without Backend
+
+Books are fetched from a static JSON file:
+
+export const fetchBooks = async () => {
+const res = await fetch("/books.json");
+const data = await res.json();
+return data.books;
+};
+
+This allows:
+
+Async behavior
+
+Real deployment
+
+No backend complexity
+
+Running Locally
+npm install
+npm run dev
