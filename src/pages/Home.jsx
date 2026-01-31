@@ -6,12 +6,11 @@ import { books } from "../data";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const initialFilters = {
+  const [filters, setFilters] = useState({
     categories: [],
     rating: null,
     price: { min: null, max: null },
-  };
-  const [filters, setFilters] = useState(initialFilters);
+  });
   const bySearch = (book) => {
     if (!searchQuery) return true;
     else
@@ -25,6 +24,19 @@ const Home = () => {
     else return filters.categories.includes(book.category);
   };
 
+  const byRating = (book) => {
+    if (!filters.rating) return true;
+    else return book.rating >= filters.rating;
+  };
+
+  const byPrice = (book) => {
+    const { min, max } = filters.price;
+
+    if (min !== null && book.price < min) return false;
+    if (max !== null && book.price > max) return false;
+    return true;
+  };
+
   return (
     <div className="home">
       <aside className="sidebar">
@@ -32,7 +44,13 @@ const Home = () => {
       </aside>
       <div className="content">
         <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Books filteredBooks={books.filter(bySearch).filter(byCategory)} />
+        <Books
+          filteredBooks={books
+            .filter(bySearch)
+            .filter(byCategory)
+            .filter(byRating)
+            .filter(byPrice)}
+        />
       </div>
     </div>
   );
