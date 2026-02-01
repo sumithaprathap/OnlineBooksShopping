@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useBookContext } from "../contexts/BookContext";
 
 const BookCard = ({ book }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const likeBook = function (e) {
-    setIsLiked((prev) => !prev);
+  const { isFavorite, addToFavorites, removeFromFavorites } = useBookContext();
+  const favorite = isFavorite(book);
+  const onFavoriteClick = function (e) {
+    e.preventDefault();
+    favorite ? removeFromFavorites(book) : addToFavorites(book);
   };
   return (
     <div className="book-card">
@@ -11,11 +14,11 @@ const BookCard = ({ book }) => {
         <img className="book-image" src={book.url} alt={book.title} />
         <button
           className="fav-btn"
-          onClick={likeBook}
+          onClick={onFavoriteClick}
           aria-label="Add to wishlist"
         >
           <i
-            className={isLiked ? "fa fa-heart" : "fa fa-thumbs-up"}
+            className={favorite ? "fa fa-heart" : "fa fa-thumbs-up"}
             aria-hidden="true"
             style={{ color: "red", fontSize: "15px", marginRight: "4px" }}
           ></i>

@@ -18,6 +18,9 @@ const NavBar = () => {
         <Link to="/categories" className="nav-link">
           Categories
         </Link>
+        <Link to="/favorites" className="nav-link">
+          Favorites
+        </Link>
       </div>
     </nav>
   );

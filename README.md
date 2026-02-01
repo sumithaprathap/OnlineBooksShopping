@@ -1,66 +1,100 @@
 📚 Online Book Store (React)
 
-A minimal, responsive online book store built with React.
-The application demonstrates modern frontend concepts such as component-driven UI, client-side routing, async data fetching, and multi-criteria filtering.
+A modern single-page application built with React that simulates a real-world online bookstore.
+The project demonstrates practical frontend architecture including async data loading, global state management, client-side routing, and multi-criteria filtering.
 
-## Live Demo
-
-(https://onlinebookstore-searchandshop.netlify.app/)
+Live Demo:
+https://onlinebookstore-searchandshop.netlify.app/
 
 # Features
 
-- Core UI
+Core UI
 
-- Product grid with reusable BookCard components
+Product grid with reusable BookCard components
 
-- Sticky navigation bar with client-side routing
+Sticky navigation bar with client-side routing
 
-- Responsive layout with sidebar + main content
+Responsive layout with sidebar + main content
 
-- Search & Filters
+# Dedicated pages:
 
-- Search books by title (case-insensitive)
+Home
 
-- Filter by:
-  - Category (multi-select)
+Top Sellers
 
-  - Rating (single-select)
+Categories
 
-  - Price range (min / max)
+Favorites
 
-- Expand / collapse filter sections (accordion behavior)
+Search & Filters
 
-- Empty-state handling when no results match
+Search books by title (case-insensitive)
 
-# Interactions
+Filter by:
 
-- Like / wishlist toggle on each book
+Category (multi-select)
 
-- Controlled inputs for search and filters
+Rating (single-select, “X & above”)
 
-- Real-time filtering without page reload
+Price range (min / max)
+
+Expand / collapse filter sections (accordion UI)
+
+Empty-state handling when no results match
+
+Favorites (Global State)
+
+Mark / unmark books as favorites
+
+Favorites persist across:
+
+Pages
+
+Filters
+
+Search results
+
+Browser refresh
+
+Dedicated Favorites page showing all saved books
 
 # Data & Async
 
-- Books loaded asynchronously using fetch
+Books loaded asynchronously using fetch
 
-- Deployed-friendly setup using /public/books.json
+Deployed-friendly setup using /public/books.json
 
-L- oading and error states handled
+Loading and error states handled gracefully
+
+export const fetchBooks = async () => {
+const res = await fetch("/books.json");
+const data = await res.json();
+return data.books;
+};
+
+This demonstrates:
+
+Async side effects with useEffect
+
+Real network-style behavior
+
+No backend dependency
 
 # Tech Stack
 
-- React (Hooks)
+React (Hooks)
 
-- React Router
+React Router
 
-- Fetch API
+Context API
 
-- CSS (Flexbox)
+Fetch API
 
-- Font Awesome icons
+CSS (Flexbox)
 
-- Netlify deployment
+Font Awesome icons
+
+Netlify deployment
 
 # Project Structure
 
@@ -71,12 +105,19 @@ Books.jsx
 NavBar.jsx
 SearchForm.jsx
 SideBar.jsx
+
 pages/
 Home.jsx
 TopSellers.jsx
 Categories.jsx
+Favorites.jsx
+
+contexts/
+BookContext.jsx
+
 services/
 booksApi.js
+
 App.jsx
 App.css
 
@@ -116,34 +157,115 @@ if (!searchQuery) return true;
 return book.title.toLowerCase().includes(searchQuery.toLowerCase());
 };
 
-This pattern scales cleanly as new filters are added.
+This pattern is:
+
+Declarative
+
+Easy to extend
+
+Easy to test
+
+Avoids duplicated state
 
 3. Pure UI State vs Business State
 
-UI state (accordion open/close) lives inside SideBar
+UI state (accordion open/close):
+Stored locally inside SideBar
 
-Business state (filters) lives in Home
+Business state (filters, favorites):
+Stored centrally in Home / Context
 
-This separation avoids unnecessary re-renders and keeps logic predictable.
+This separation:
 
-4. Async Without Backend
+Reduces unnecessary re-renders
 
-Books are fetched from a static JSON file:
+Keeps logic predictable
 
-export const fetchBooks = async () => {
-const res = await fetch("/books.json");
-const data = await res.json();
-return data.books;
-};
+Matches real production architecture
 
-This allows:
+4. Global State with Context API
 
-Async behavior
+Favorites are managed using React Context:
 
-Real deployment
+createContext
+useContext
+Provider pattern
 
-No backend complexity
+Why Context:
 
-Running Locally
-npm install
-npm run dev
+Avoids prop drilling
+
+Shared across pages
+
+Single source of truth
+
+5. Persistence with Local Storage
+
+Favorites are synchronized with localStorage:
+
+Hydrated on app load
+
+Persisted on every update
+
+useEffect(() => {
+const stored = localStorage.getItem("favorites");
+if (stored) setFavoriteBooks(JSON.parse(stored));
+}, []);
+
+useEffect(() => {
+localStorage.setItem("favorites", JSON.stringify(favoriteBooks));
+}, [favoriteBooks]);
+
+Demonstrates:
+
+Real persistence
+
+Side effects
+
+State hydration pattern
+
+6. Controlled Components
+
+All user inputs are controlled:
+
+Search input
+
+Category checkboxes
+
+Rating radio buttons
+
+Price range fields
+
+This ensures:
+
+Predictable state
+
+No uncontrolled DOM state
+
+Easier debugging
+
+7. Performance Awareness
+
+Filtering logic uses pure functions and memoization (useMemo) to avoid unnecessary recomputation.
+
+This shows:
+
+Understanding of re-render behavior
+
+Performance-conscious design
+
+# What This Project Demonstrates
+
+This project is intentionally designed to showcase:
+
+Async data flow
+
+State lifting and propagation
+
+Global state with Context
+
+Derived state vs stored state
+
+Component-driven architecture
+
+Real-world UI patterns
